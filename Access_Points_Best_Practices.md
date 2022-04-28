@@ -61,7 +61,17 @@ In most cases, this requires some form of contact between corner 3 and corner 4 
 
 When using a UBL document type that contains an EndpointID for a sender or recipient, their values should match those used in the SBDH Envelope Sender and Receiver fields.
 
-For instance, you should NOT have a KvK number as the Receiver value in the envelope when the EndpointID value in the AccoutntingCustomerParty of a UBL invoice is an OIN number. 
+For instance, you should NOT have a KvK number as the Receiver value in the envelope when the EndpointID value in the AccountingCustomerParty of a UBL invoice is an OIN number.
+
+#### Disadvantages of SBDH mismatches
+
+There are some potential use-cases for using values for the sender or receiver in the SBDH that do not match the actual document content. These mainly have to do with workarounds for not being able to specify a return address for MLR documents, in the scenario where the Service Provider either has no direct control over the MLR SMP publication of the sender but does need to process the MLR on behalf of that sender.
+
+However, there are several potential issues that could occur when the SBDH sender differs from the EndpointID value in the document. Since processing at corner 3, including logging, storage, and retrieval, is often based on the SBDH values, *not* the actual document contents. This can result in problems retrieving information about those documents, as corner 3 and 4 consider the document to be from different senders, for instance:
+
+- retrieval of documents based on the sender
+- inspection of log files when there are issues with documents from a specific sender
+- internal routing based on sender or receivers (if done by SBDH)
 
 ### Caching SMP results
 
